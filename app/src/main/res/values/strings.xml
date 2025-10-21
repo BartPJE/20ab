@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">20ab Tracker</string>
+    <string name="create_session">Neuer Stammtisch</string>
+    <string name="new_game">Neues Spiel</string>
+    <string name="statistics">Statistik</string>
+</resources>
