@@ -2,8 +2,9 @@ package com.twentyab.tracker.ui
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.BarChart
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -41,6 +42,7 @@ fun TwentyAbApp(repository: TwentyAbRepository) {
         currentRoute?.startsWith(TwentyAbDestinations.SessionDetail) == true -> "Stammtisch"
         currentRoute?.startsWith(TwentyAbDestinations.NewGame) == true -> "Neues Spiel"
         currentRoute == TwentyAbDestinations.Statistics -> "Statistik"
+        currentRoute == TwentyAbDestinations.Sessions -> "Stammtisch App"
         else -> "20ab Tracker"
     }
     Scaffold(
@@ -48,16 +50,20 @@ fun TwentyAbApp(repository: TwentyAbRepository) {
             TopAppBar(
                 title = { Text(text = title) },
                 navigationIcon = {
-                    if (navController.previousBackStackEntry != null) {
+                    if (currentRoute == TwentyAbDestinations.Sessions) {
+                        IconButton(onClick = { }) {
+                            Icon(imageVector = Icons.Default.Menu, contentDescription = "Menü")
+                        }
+                    } else if (navController.previousBackStackEntry != null) {
                         IconButton(onClick = { navController.navigateUp() }) {
                             Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Zurück")
                         }
                     }
                 },
                 actions = {
-                    if (currentRoute != TwentyAbDestinations.Statistics) {
-                        IconButton(onClick = { navController.navigate(TwentyAbDestinations.Statistics) }) {
-                            Icon(imageVector = Icons.Default.BarChart, contentDescription = "Statistik")
+                    if (currentRoute == TwentyAbDestinations.Sessions) {
+                        IconButton(onClick = { }) {
+                            Icon(imageVector = Icons.Default.AccountCircle, contentDescription = "Profil")
                         }
                     }
                 }
@@ -76,6 +82,7 @@ fun TwentyAbApp(repository: TwentyAbRepository) {
                 SessionsScreen(
                     viewModel = viewModel,
                     onCreateSession = { navController.navigate(TwentyAbDestinations.NewSession) },
+                    onShowStatistics = { navController.navigate(TwentyAbDestinations.Statistics) },
                     onSessionSelected = { id ->
                         navController.navigate("${TwentyAbDestinations.SessionDetail}/$id")
                     }
